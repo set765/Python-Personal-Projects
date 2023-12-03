@@ -1,0 +1,128 @@
+import time
+import random
+#HangMan Game
+
+random_worlds = [
+    "Elephant", "Sunshine", "Guitar", "Galaxy", "Chocolate",
+    "Whisper", "Mountain", "Serenade", "Enigma", "Carnival",
+    "Quantum", "Tranquil", "Velocity", "Orchid", "Thunder",
+    "Harmony", "Velvet", "Tangerine", "Symphony", "Moonlight",
+    "Kaleidoscope", "Serendipity", "Labyrinth", "Radiance", "Bubblegum",
+    "Ephemeral", "Cascade", "Mirage", "Synchronicity", "Avalanche",
+    "Midnight", "Ethereal", "Whimsical", "Azure", "Radiant",
+    "Journey", "Velvet", "Cascade", "Celestial", "Incandescent",
+    "Enchanted", "Melody", "Whisper", "Jubilee", "Dragonfly",
+    "Nimbus", "Essence", "Delight", "Twilight", "Carousel",
+    "Zephyr", "Echo", "Quasar", "Enigma", "Symphony",
+    "Tranquility", "Pinnacle", "Elixir", "Serenade", "Bliss",
+    "Galaxy", "Ineffable", "Aurora", "Nebula", "Incandescent",
+    "Cascade", "Harmony", "Utopia", "Radiance", "Zenith",
+    "Whisper", "Velvet", "Ethereal", "Luminous", "Enchantment",
+    "Labyrinth", "Cascade", "Nebula", "Serendipity", "Mirage",
+    "Ephemeral", "Symphony", "Bliss", "Moonlight", "Radiant",
+    "Zephyr", "Odyssey", "Jubilee", "Celestial", "Luminescent",
+    "Serenity", "Harmony", "Cascade", "Elixir", "Twilight",
+    "Radiance", "Whisper", "Enchantment", "Zenith", "Nebula"
+]
+def provide_clue(correct_word, incorrect_guess):
+    # Provide a clue, e.g., reveal a letter or two
+    # This is a basic example; you can customize it further
+    for letter in correct_word:
+        if letter.lower() not in incorrect_guess.lower():
+            return f"Clue: {letter}"
+    return "No clue available"
+
+# if user guess correct some words it will show those words
+def total_guess_letter(word, correct_guesses):
+    return ' '.join(letter if letter.lower() in correct_guesses else '_' for letter in word)
+
+points = 0
+lives = 6
+user_name = input("what is your name")
+
+while True:
+    Menu = input("do you want to play hangman: yes/no")
+    if Menu == "yes":
+        #only one random word per game
+        one_random_word = random.choice(random_worlds)
+        five_random_words = random.sample(random_worlds,5)
+
+        # random words
+        print("if you get wrong answers we will give you clues")
+        print("loading game...")
+        print("---------------")
+        time.sleep(2)
+        # game starting
+        while True:
+            question = input("Guess the random world that I'm thinking about:")
+
+
+            #if user get the right asnwer
+            if question == one_random_word:
+                points += 1
+
+                print("---------------")
+                print("You guess right, I'm was thinking of", one_random_word)
+                print("Total points", points, "live remaining", lives)
+                print("Loading new game...")
+                time.sleep(3)
+                one_random_word = random.choice(random_worlds)
+
+            elif lives == 0:
+
+                print("---------------")
+                print("Full body reached")
+                print("0-/--/")
+                exit = print("GAME OVER")
+                print("Total points reached", points)
+                print("right answer was", one_random_word)
+
+                print("---------------")
+                time.sleep(5)
+                break
+
+
+            #if user get the wrong asnwer
+            elif question != one_random_word:
+                print("---------------")
+                print("Sorry wrong asnwer:")
+                lives -= 1
+                if lives == 5:
+                    print("Head reached")
+                    print("0")
+                    print(provide_clue(one_random_word, question))
+                    print(total_guess_letter(one_random_word, question))
+                    print("---------------")
+                    time.sleep(2)
+                elif lives == 4:
+                    print("Neck reached")
+                    print("0-")
+                    print(provide_clue(one_random_word, question))
+                    print(total_guess_letter(one_random_word, question))
+                    print("---------------")
+                    time.sleep(2)
+                elif lives == 3:
+                    print("Arms reached")
+                    print("0-/")
+                    print(provide_clue(one_random_word, question))
+                    print(total_guess_letter(one_random_word, question))
+                    print("---------------")
+                    time.sleep(2)
+                elif lives == 2:
+                    print("Stomach reached")
+                    print("0-/-")
+                    print(provide_clue(one_random_word, question))
+                    print(total_guess_letter(one_random_word, question))
+                    print("---------------")
+                    time.sleep(2)
+                elif lives == 1:
+                    print("Legs reached")
+                    print("0-/--")
+                    print(provide_clue(one_random_word, question))
+                    print(total_guess_letter(one_random_word, question))
+                    print("---------------")
+                    time.sleep(2)
+
+    if Menu == "no":
+        print("Have a good day")
+        quit()
